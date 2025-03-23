@@ -110,12 +110,14 @@ class MazeSolver:
                     if self.maze:
                         self.maze.clear_solution()
                         
-                        # Eğer seçili bir algoritma varsa, sıfırla
+                        # Eğer seçili bir algoritma varsa, hazırla ama başlatma
                         if self.ui.selected_algorithm:
                             self.current_algorithm = self.ui.get_selected_algorithm(self.maze)
                             if self.current_algorithm:
                                 self.current_algorithm.initialize()
-                                self.state = "solving"  # Çözme durumuna geç
+                                # solving state'ine geçmiyoruz, böylece algorithm çalışmayacak
+                                # main state'inde kalacak ve kullanıcının başlatmasını bekleyecek
+                                
                                 # Mesaj bayrağını sıfırla
                                 self.solution_message_shown = False
                                 return
@@ -150,6 +152,14 @@ class MazeSolver:
         # Eğer algoritma çalışıyorsa bilgileri göster
         if self.current_algorithm:
             self.ui.draw_solving_info(self.current_algorithm)
+            
+            # Eğer algoritma initialize edilmiş ama durdurulmuşsa (reset sonrası)
+            if not self.state == "solving" and not self.current_algorithm.is_finished():
+                # Durduruldu bilgisini göster
+                font = pygame.font.SysFont('Arial', 24, bold=True)
+                text = font.render("Algorithm is ready - Click on it to start", True, (0, 200, 0))
+                text_rect = text.get_rect(center=((self.screen.get_width() - self.ui.panel_width) // 2, 70))
+                self.screen.blit(text, text_rect)
     
     def handle_generating_maze(self, events):
         """Labirent oluşturma durumunu işle"""
@@ -260,12 +270,14 @@ class MazeSolver:
                     if self.maze:
                         self.maze.clear_solution()
                         
-                        # Eğer seçili bir algoritma varsa, sıfırla
+                        # Eğer seçili bir algoritma varsa, hazırla ama başlatma
                         if self.ui.selected_algorithm:
                             self.current_algorithm = self.ui.get_selected_algorithm(self.maze)
                             if self.current_algorithm:
                                 self.current_algorithm.initialize()
-                                self.state = "solving"  # Çözme durumuna geç
+                                # solving state'ine geçmiyoruz, böylece algorithm çalışmayacak
+                                # main state'inde kalacak ve kullanıcının başlatmasını bekleyecek
+                                
                                 # Mesaj bayrağını sıfırla
                                 self.solution_message_shown = False
                                 return

@@ -305,11 +305,14 @@ class UI:
             self.panel_x + self.panel_width // 2 - button_width // 2,
             y_pos + 5,  # 20'den 5'e düşürdüm (bir punto yukarı)
             button_width, button_height,
-            "Reset Algorithm",  # Algoritmayı Sıfırla -> Reset Algorithm
+            "Reset & Stop Algorithm",  # Reset Algorithm -> Reset & Stop Algorithm
             self.font,
             color=(255, 200, 200),
             hover_color=(255, 150, 150)
         )
+        
+        # Türkçe çevirisi korumak için
+        self.reset_algorithm_button_tr_text = "Algoritmayı Sıfırla & Durdur"
         
         # Karşılaştır butonu - bir punto yukarı taşı
         self.compare_button = Button(
